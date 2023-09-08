@@ -1,3 +1,7 @@
+// Import Redis and MongoDB clients
+const redisClient = require('./utils/redis');
+const dbClient = require('./utils/db');
+
 // Import necessary modules
 const express = require('express');
 const app = express();
