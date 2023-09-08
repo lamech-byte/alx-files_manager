@@ -4,23 +4,25 @@ const dbClient = require('../utils/db');
 const AppController = {
   // Endpoint to check the status of Redis and the DB
   getStatus: async (req, res) => {
-    const redisStatus = await redisClient.isAlive();
-    const dbStatus = await dbClient.isAlive();
-    
-    return res.status(200).json({
-      redis: redisStatus,
-      db: dbStatus,
-    });
-  } catch (error) {
-    console.error('Error in getStatus:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
-  }
+    try {
+      const redisStatus = await redisClient.isAlive();
+      const dbStatus = await dbClient.isAlive();
+
+      return res.status(200).json({
+        redis: redisStatus,
+        db: dbStatus,
+      });
+    } catch (error) {
+      console.error('Error in getStatus:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  },
 
   // Endpoint to get the number of users and files in DB
   getStats: async (req, res) => {
     const numUsers = await dbClient.nbUsers();
     const numFiles = await dbClient.nbFiles();
-    
+
     return res.status(200).json({
       users: numUsers,
       files: numFiles,
