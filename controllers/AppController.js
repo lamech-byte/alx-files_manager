@@ -11,7 +11,10 @@ const AppController = {
       redis: redisStatus,
       db: dbStatus,
     });
-  },
+  } catch (error) {
+    console.error('Error in getStatus:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
 
   // Endpoint to get the number of users and files in DB
   getStats: async (req, res) => {
