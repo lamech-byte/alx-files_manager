@@ -1,4 +1,5 @@
 import redis from 'redis';
+module.exports = new RedisClient();
 
 class RedisClient {
   constructor() {
