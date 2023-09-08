@@ -1,17 +1,17 @@
 // Import necessary modules
-const express = require('express');
+import express from 'express';
+import routes from './routes/index';
 const app = express();
 
 // Define the port to listen on
-const PORT = process.env.PORT || 5000;
-
-// Load routes from the routes/index.js file
-const routes = require('./routes');
+const port = process.env.PORT || 5000;
 
 // Use the routes in the Express app
-app.use('/', routes);
+app.use(express.json());
+
+routes(app);
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
