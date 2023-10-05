@@ -1,33 +1,24 @@
-const redisClient = require('../utils/redis');
-const dbClient = require('../utils/db');
+/*
+ * Defines the AppController controller
+ */
 
-const AppController = {
-  // Endpoint to check the status of Redis and the DB
-  getStatus: async (req, res) => {
-    try {
-      const redisStatus = await redisClient.isAlive();
-      const dbStatus = await dbClient.isAlive();
+import redisClient from '../utils/redis';
+import dbClient from '../utils/db';
 
-      return res.status(200).json({
-        redis: redisStatus,
-        db: dbStatus,
-      });
-    } catch (error) {
-      console.error('Error in getStatus:', error);
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
-  },
+class AppController {
+  static getStatus(req, res) {
+    const redisStatus = redisClient.isAlive();
+    const dbStatus = dbClient.isAlive();
 
-  // Endpoint to get the number of users and files in DB
-  getStats: async (req, res) => {
-    const numUsers = await dbClient.nbUsers();
-    const numFiles = await dbClient.nbFiles();
+    res.status(200).send({ redis: redisStatus, db: dbStatus });
+  }
 
-    return res.status(200).json({
-      users: numUsers,
-      files: numFiles,
-    });
-  },
-};
+  static async getStats(req, res) {
+    const users = await dbClient.nbUsers();
+    const files = await dbClient.nbFiles();
 
-module.exports = AppController;
+    res.status(200).send({ users, files });
+  }
+}
+
+export default AppController;
