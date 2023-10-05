@@ -1,21 +1,17 @@
-// Import Redis and MongoDB clients
-const redisClient = require('./utils/redis');
-const dbClient = require('./utils/db');
+/*
+ * Create the Express server
+ */
 
-// Import necessary modules
-const express = require('express');
+import express from 'express';
+import routes from './routes/index';
+
 const app = express();
+const port = process.env.PORT || 5000;
 
-// Define the port to listen on
-const PORT = process.env.PORT || 5000;
+app.use(express.json());
 
-// Load routes from the routes/index.js file
-const routes = require('./routes');
+routes(app);
 
-// Use the routes in the Express app
-app.use('/', routes);
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
